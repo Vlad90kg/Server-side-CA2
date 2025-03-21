@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
+
+    public function about()
+    {
+        return view('about');
+    }
     public function index()
     {
         $posts = Post::latest()->take(3)->get();
