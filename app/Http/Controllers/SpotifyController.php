@@ -16,4 +16,24 @@ class SpotifyController extends Controller
         $this->spotify = $spotify;
     }
 
+    public function auth()
+    {
+        return redirect($this->spotify->getAuthUrl());
+    }
+
+    public function callback(Request $request)
+    {
+        try {
+            if ($request->error) {
+                throw new Exception('Authorization failed: ' . $request->error);
+            }
+
+            $code = $request->get('code');
+            $this->spotify->handleCallback($code);
+
+            return redirect()->route('dashboard')->with('success', 'Spotify connected successfully');
+        } catch (Exception $e) {
+            return redirect()->route('dashboard')->with('error', $e->getMessage());
+        }
+    }
 }
