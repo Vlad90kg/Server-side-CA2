@@ -41,22 +41,22 @@
 
             <ul class="py-4 sm:text-s pt-4 text-gray-400">
                 <li class="pb-1">
-                    <a href="/">
+                    <a href="/about">
                         What we do
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
+                    <a href="/contact">
                         Address
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
+                    <a href="/contact">
                         Phone
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
+                    <a href="/contact">
                         Contact
                     </a>
                 </li>

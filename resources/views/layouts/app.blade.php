@@ -43,6 +43,7 @@
                             {{ csrf_field() }}
                         </form>
                     @endguest
+                    <a class="no-underline hover:underline" href="{{ route('contacts') }}">Contact</a>
                     <a  class="no-underline hover:underline" href="{{ route('about') }}">About Us</a>
                 </nav>
             </div>
