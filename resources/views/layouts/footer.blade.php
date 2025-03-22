@@ -26,6 +26,11 @@
                         Register
                     </a>
                 </li>
+                <li class="pb-1">
+                    <a href="/about">
+                        About Us
+                    </a>
+                </li>
             </ul>
         </div>
 
