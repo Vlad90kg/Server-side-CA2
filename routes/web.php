@@ -26,4 +26,6 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->nam
 
 Route::get('/about', [PagesController::class, 'about'])->name('about');
 
-
+Route::get('/contacts', function () {
+    return view('contacts');
+})->name('contacts');
