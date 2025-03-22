@@ -28,5 +28,19 @@ class SpotifyService
         $this->api = new SpotifyWebAPI();
     }
 
+    public function getAuthUrl()
+    {
+        $scopes = [
+            'user-read-email',
+            'user-read-private',
+            'playlist-read-private',
+            'playlist-modify-public',
+            'playlist-modify-private'
+        ];
+
+        return $this->session->getAuthorizeUrl([
+            'scope' => $scopes
+        ]);
+    }
 
 }
