@@ -29,3 +29,15 @@ Route::get('/about', [PagesController::class, 'about'])->name('about');
 Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
+
+Route::middleware(['web'])->group(function () {
+    Route::get('/spotify/auth', [SpotifyController::class, 'auth'])->name('spotify.auth');
+    Route::get('/callback', [SpotifyController::class, 'callback'])->name('spotify.callback');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/spotify/search', [SpotifyController::class, 'search'])->name('spotify.search');
+        Route::get('/spotify/playlists', [SpotifyController::class, 'playlists'])->name('spotify.playlists');
+        Route::get('/spotify/playlist/{id}', [SpotifyController::class, 'playlist'])->name('spotify.playlist.show');
+        Route::post('/spotify/playlist', [SpotifyController::class, 'createPlaylist'])->name('spotify.playlist.create');
+    });
+});
