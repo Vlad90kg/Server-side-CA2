@@ -43,4 +43,31 @@ class SpotifyService
         ]);
     }
 
+    public function handleCallback($code)
+    {
+        $this->session->requestAccessToken($code);
+        Cache::put('spotify_access_token', $this->session->getAccessToken(), 3600);
+        Cache::put('spotify_refresh_token', $this->session->getRefreshToken());
+
+        return $this->session->getAccessToken();
+    }
+
+    private function getApi()
+    {
+        $accessToken = Cache::get('spotify_access_token');
+
+        if (!$accessToken) {
+            if ($refreshToken = Cache::get('spotify_refresh_token')) {
+                $this->session->refreshAccessToken($refreshToken);
+                $accessToken = $this->session->getAccessToken();
+                Cache::put('spotify_access_token', $accessToken, 3600);
+            }
+        }
+
+        $this->api->setAccessToken($accessToken);
+        return $this->api;
+    }
+
+
+
 }
