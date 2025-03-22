@@ -68,6 +68,32 @@ class SpotifyService
         return $this->api;
     }
 
+// Search Methods
+    public function search($query, $type = 'track', $limit = 20)
+    {
+        return $this->getApi()->search($query, $type, ['limit' => $limit]);
+    }
+
+    // Playlist Methods
+    public function getUserPlaylists($limit = 20)
+    {
+        return $this->getApi()->getMyPlaylists(['limit' => $limit]);
+    }
+
+    public function getPlaylist($playlistId)
+    {
+        return $this->getApi()->getPlaylist($playlistId);
+    }
+
+    public function createPlaylist($name, $description = '', $public = false)
+    {
+        return $this->getApi()->createPlaylist([
+            'name' => $name,
+            'description' => $description,
+            'public' => $public
+        ]);
+    }
+
 
 
 }
