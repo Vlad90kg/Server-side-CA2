@@ -52,4 +52,24 @@ class SpotifyController extends Controller
         }
     }
 
+    public function playlists(): JsonResponse
+    {
+        try {
+            $playlists = $this->spotify->getUserPlaylists();
+            return response()->json($playlists);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function playlist($id): JsonResponse
+    {
+        try {
+            $playlist = $this->spotify->getPlaylist($id);
+            return response()->json($playlist);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
