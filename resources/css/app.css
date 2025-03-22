@@ -12,3 +12,6 @@
     background-size: cover;
     height: 600px;
 }
+.bold-text {
+    font-weight: bold;
+}
