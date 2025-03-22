@@ -72,4 +72,25 @@ class SpotifyController extends Controller
         }
     }
 
+    public function createPlaylist(Request $request): JsonResponse
+    {
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:100',
+                'description' => 'nullable|string|max:300',
+                'public' => 'boolean'
+            ]);
+
+            $playlist = $this->spotify->createPlaylist(
+                $validated['name'],
+                $validated['description'] ?? '',
+                $validated['public'] ?? false
+            );
+
+            return response()->json($playlist);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
