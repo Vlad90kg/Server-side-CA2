@@ -2,9 +2,10 @@
 
 
 namespace App\Services;
+use Exception;
+use Illuminate\Support\Facades\Cache;
 use SpotifyWebAPI\Session;
 use SpotifyWebAPI\SpotifyWebAPI;
-use Illuminate\Support\Facades\Cache;
 
 
 class SpotifyService
@@ -28,7 +29,7 @@ class SpotifyService
         $this->api = new SpotifyWebAPI();
     }
 
-    public function getAuthUrl()
+    public function getAuthUrl(): string
     {
         $scopes = [
             'user-read-email',
@@ -43,7 +44,7 @@ class SpotifyService
         ]);
     }
 
-    public function handleCallback($code)
+    public function handleCallback($code): string
     {
         $this->session->requestAccessToken($code);
         Cache::put('spotify_access_token', $this->session->getAccessToken(), 3600);
@@ -52,22 +53,29 @@ class SpotifyService
         return $this->session->getAccessToken();
     }
 
-    private function getApi()
+    /**
+     * @throws Exception
+     */
+    private function getApi(): SpotifyWebAPI
     {
-        $accessToken = Cache::get('spotify_access_token');
+        if (!auth()->check()) {
+            throw new Exception('User not authenticated');
+        }
+
+        $user = auth()->user();
+        $accessToken = $user->spotify_token;
 
         if (!$accessToken) {
-            if ($refreshToken = Cache::get('spotify_refresh_token')) {
-                $this->session->refreshAccessToken($refreshToken);
-                $accessToken = $this->session->getAccessToken();
-                Cache::put('spotify_access_token', $accessToken, 3600);
-            }
+            throw new Exception('Spotify token not found in user record');
+        }
+
+        if ($user->spotify_token_expires_at <= now()) {
+            throw new Exception('Spotify token expired, re-authenticate');
         }
 
         $this->api->setAccessToken($accessToken);
         return $this->api;
     }
-
 // Search Methods
     public function search($query, $type = 'track', $limit = 20)
     {

@@ -11,12 +11,16 @@
         "php": "^7.3|^8.0",
         "ext-pdo": "*",
         "cviebrock/eloquent-sluggable": "^8.0",
+        "doctrine/dbal": "^3.9",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jwilsson/spotify-web-api-php": "^5.7",
         "laravel/framework": "^8.12",
-        "laravel/tinker": "^2.5"
+        "laravel/sanctum": "^2.15",
+        "laravel/socialite": "^5.18",
+        "laravel/tinker": "^2.5",
+        "socialiteproviders/spotify": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
