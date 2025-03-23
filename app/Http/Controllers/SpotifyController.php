@@ -88,46 +88,53 @@ class SpotifyController extends Controller
             return redirect()->route('home')->with('error', $e->getMessage());
         }
     }
-
-    public function playlists(): JsonResponse
+    // Show all playlists
+    public function playlists()
     {
         try {
             $playlists = $this->spotify->getUserPlaylists();
-            return response()->json($playlists);
+
+            return view('spotify.playlists', ['playlists' => $playlists]);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function playlist($id): JsonResponse
+// Show specific playlist details
+    public function playlist($id)
     {
         try {
             $playlist = $this->spotify->getPlaylist($id);
-            return response()->json($playlist);
+
+            return view('spotify.playlist', ['playlist' => $playlist]);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function createPlaylist(Request $request): JsonResponse
+// Show form and handle create playlist
+    public function createPlaylist(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:100',
-                'description' => 'nullable|string|max:300',
-                'public' => 'boolean'
-            ]);
+        if ($request->isMethod('get')) {
+            return view('spotify.create_playlist');
+        }
 
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string|max:300',
+            'public' => 'boolean'
+        ]);
+
+        try {
             $playlist = $this->spotify->createPlaylist(
                 $validated['name'],
                 $validated['description'] ?? '',
                 $validated['public'] ?? false
             );
 
-            return response()->json($playlist);
+            return redirect()->route('spotify.playlists')->with('success', 'Playlist created successfully!');
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
 }
