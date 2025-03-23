@@ -111,30 +111,4 @@ class SpotifyController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
-// Show form and handle create playlist
-    public function createPlaylist(Request $request)
-    {
-        if ($request->isMethod('get')) {
-            return view('spotify.create_playlist');
-        }
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'description' => 'nullable|string|max:300',
-            'public' => 'boolean'
-        ]);
-
-        try {
-            $playlist = $this->spotify->createPlaylist(
-                $validated['name'],
-                $validated['description'] ?? '',
-                $validated['public'] ?? false
-            );
-
-            return redirect()->route('spotify.playlists')->with('success', 'Playlist created successfully!');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
-    }
 }

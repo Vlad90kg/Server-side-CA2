@@ -90,26 +90,29 @@
         </div>
     </div>
 
-    <div class="sm:grid grid-cols-2 w-4/5 m-auto">
-        <div class="flex bg-yellow-700 text-gray-100 pt-10">
-            <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block">
-                <span class="uppercase text-xs">
-                    MUSIC
-                </span>
+    @auth
+        <div class="sm:grid grid-cols-2 w-4/5 m-auto rounded-lg overflow-hidden shadow-lg bg-green-600">
+            <div class="flex flex-col justify-center text-white p-8">
+                <span class="uppercase text-xs font-semibold">Spotify Music</span>
 
-                <h3 class="text-xl font-bold py-10">
+                <h3 class="text-2xl font-bold py-4">
                     Immerse yourself in a symphony of sounds, where every note tells a story and every melody awakens your soul.
                 </h3>
 
-                <a
-                    href=""
-                    class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
-                    Discover More
-                </a>
+                <div class="mt-6 flex gap-4">
+                    <a href="{{ route('spotify.search') }}"
+                       class="uppercase bg-white text-green-600 text-xs font-bold py-3 px-5 rounded-full hover:bg-green-100 transition">
+                        Search Tracks
+                    </a>
+
+                    <a href="{{ route('spotify.playlists') }}"
+                       class="uppercase bg-transparent border-2 border-white text-white text-xs font-bold py-3 px-5 rounded-full hover:bg-white hover:text-green-600 transition">
+                        My Playlists
+                    </a>
+                </div>
             </div>
+
+
         </div>
-        <div>
-            <img src="https://cdn.pixabay.com/photo/2014/05/03/01/03/laptop-336704_960_720.jpg" alt="">
-        </div>
-    </div>
+    @endauth
 @endsection
