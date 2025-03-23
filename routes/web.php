@@ -46,3 +46,9 @@ Route::middleware(['web'])->group(function () {
         Route::post('/spotify/playlist', [SpotifyController::class, 'createPlaylist'])->name('spotify.playlist.create');
     });
 });
+Route::middleware(['web', 'auth', 'spotify.token'])->group(function () {
+    Route::get('/spotify/playlists', [SpotifyController::class, 'playlists'])->name('spotify.playlists');
+    Route::get('/spotify/playlist/{id}', [SpotifyController::class, 'playlist'])->name('spotify.playlist.show');
+
+    Route::match(['get', 'post'], '/spotify/playlist/create', [SpotifyController::class, 'createPlaylist'])->name('spotify.playlist.create');
+});
