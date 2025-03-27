@@ -7,15 +7,25 @@
 
             <ul class="py-4 sm:text-s pt-4 text-gray-400">
                 <li class="pb-1">
-                    <a href="/">
-                        Home
-                    </a>
+                    <a href="/">Home</a>
                 </li>
                 <li class="pb-1">
-                    <a href="/blog">
-                        Blog
-                    </a>
+                    <a href="/blog">Blog</a>
                 </li>
+                @auth
+                    @if(auth()->user()->hasSpotifyLinked())
+                        <li class="pb-1">
+                            <a href="{{ route('spotify.playlists') }}">My Playlists</a>
+                        </li>
+                        <li class="pb-1">
+                            <a href="{{ route('spotify.search') }}">Search Music</a>
+                        </li>
+                    @else
+                        <li class="pb-1">
+                            <a href="{{ route('spotify.auth') }}">Connect Spotify</a>
+                        </li>
+                    @endif
+                @endauth
                 <li class="pb-1">
                     <a href="/login">
                         Login
